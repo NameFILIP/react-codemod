@@ -121,6 +121,10 @@ export default function transformer(file, api) {
       if (methods.size() === 0) {
         return;
       }
+      
+      // Remove redundant class property type definitions
+      root.find(j.ClassProperty).filter(path => path.node.key.name === methodName).remove();
+      
       methods
         .replaceWith(path =>
           createArrowProperty(path.node)
